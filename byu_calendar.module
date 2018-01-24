@@ -6,13 +6,13 @@
 
 /* ---- add the configuration page to menu --- */
 
-function calendar_widget_d7_menu() {
+function byu_calendar_menu() {
   $items['admin/config/regional/calendar-widget'] = array(
       'title' => 'Calendar Widget',
       'description' => 'Set up calendar widget blocks to display events pulled from calendar.byu.edu.',
-//      'page callback' => 'calendar_widget_d7_overview_page',
+//      'page callback' => 'byu_calendar_overview_page',
       'page callback' => 'drupal_get_form',
-      'page arguments' => array('calendar_widget_d7_form'),
+      'page arguments' => array('byu_calendar_form'),
 //      'access callback' => TRUE,
       'access arguments' => array('Administer Calendar Widget settings'),
   );
@@ -20,7 +20,7 @@ function calendar_widget_d7_menu() {
 }
 
 // Create permissions
-function calendar_widget_d7_permission() {
+function byu_calendar_permission() {
   return array(
       'Administer Calendar Widget settings' => array(
           'title' => t('Administer Calendar Widget settings'),
@@ -29,7 +29,7 @@ function calendar_widget_d7_permission() {
   );
 }
 
-function calendar_widget_d7_form($form, &$form_state) {
+function byu_calendar_form($form, &$form_state) {
 
 
 
@@ -94,21 +94,21 @@ Below are the most common category ids for your convenience.') . '</div>',
   );
 
   // number of blocks settings
-  $form['calendar_widget_d7_blocks'] = array(
+  $form['byu_calendar_blocks'] = array(
       '#type' => 'fieldset',
       '#title' => t('Number of Blocks for this Site'),
   );
-  $form['calendar_widget_d7_blocks']['calendar_widget_d7_blocks_number'] = array(
+  $form['byu_calendar_blocks']['byu_calendar_blocks_number'] = array(
           '#type' => 'textfield',
           '#title' => t('Number of Calendar Widget Blocks Created'),
           '#description' => t('Make sure, if you have existing blocks, that you do not enter a number FEWER than the number of existing blocks. Doing so would result in losing one or more blocks.'),
-          '#default_value' => variable_get('calendar_widget_d7_blocks_number', '1'),
+          '#default_value' => variable_get('byu_calendar_blocks_number', '1'),
           '#size' => 2,
           '#maxlength' => 12,
           '#number_type' => 'integer',
-          '#field_name' => 'calendar_widget_d7_blocks_number',
+          '#field_name' => 'byu_calendar_blocks_number',
 //          '#element_validate' => array ('number_field_widget_validate'),  // only issue is this does allow 0. but we'll still have 1 show anyway..
-//          '#element_validate' => array ('calendar_widget_d7_blocks_number_validate'),
+//          '#element_validate' => array ('byu_calendar_blocks_number_validate'),
   );
 
 
@@ -116,17 +116,17 @@ Below are the most common category ids for your convenience.') . '</div>',
 
 
 // block 1
-  $form['calendar_widget_d7_block_1'] = array(
+  $form['byu_calendar_block_1'] = array(
       '#type' => 'fieldset',
       '#title' => t('Configuring Calendar Widget Block 1'),
       '#collapsible' => TRUE, // Added
       '#collapsed' => TRUE,  // Added
   );
-//  $form['calendar_widget_d7_block_1']['calendar_widget_d7_dates_options'] = array(
+//  $form['byu_calendar_block_1']['byu_calendar_dates_options'] = array(
 //      '#type' => 'select',
 //      '#title' => t('Number of Days'),
 //      '#description' => t('How many days, including today, the calendar block will go forward.'),
-//      '#default_value' => variable_get('calendar_widget_d7_dates_options', 7),
+//      '#default_value' => variable_get('byu_calendar_dates_options', 7),
 //      '#options' => array(
 //          1 => t('1 day (today only)'),
 //          7 => t('7 days'),
@@ -135,29 +135,29 @@ Below are the most common category ids for your convenience.') . '</div>',
 //          30 => t('30 days'),
 //      ),
 //  );
-  $form['calendar_widget_d7_block_1']['calendar_widget_d7_dates_1'] = array(
+  $form['byu_calendar_block_1']['byu_calendar_dates_1'] = array(
       '#type' => 'textfield',
       '#title' => t('Number of Days'),
       '#description' => t('How many days, including today, the calendar block will go forward.'),
-      '#default_value' => variable_get('calendar_widget_d7_dates_1', '7'),
+      '#default_value' => variable_get('byu_calendar_dates_1', '7'),
       '#size' => 10,
       '#maxlength' =>3,
       '#required' => TRUE,
   );
-  $form['calendar_widget_d7_block_1']['calendar_widget_d7_categories_1'] = array(
+  $form['byu_calendar_block_1']['byu_calendar_categories_1'] = array(
       '#type' => 'textfield',
       '#title' => t('Categories'),
       '#description' => t('The category ids for the categories you want to show events for. You can see the list of categories and find out their ids by visiting calendar.byu.edu/subscribe. See the categories section above for options. For multiple categories, separate your ids with a comma or a plus sign. i.e. 10,4 or 10+4.'),
-      '#default_value' => variable_get('calendar_widget_d7_categories_1', '90'),
+      '#default_value' => variable_get('byu_calendar_categories_1', '90'),
       '#size' => 60,
       '#maxlength' =>60,
       '#required' => TRUE,
   );
-  $form['calendar_widget_d7_block_1']['calendar_widget_d7_display_type_1'] = array(
+  $form['byu_calendar_block_1']['byu_calendar_display_type_1'] = array(
       '#type' => 'select',
       '#title' => t('Display Type'),
       '#description' => t('There are several display types available for this calendar block. To preview these display types see  [[ link here ]] . The tile formats require the BYU Component calendar tile. Read more at [[ link ]].'),
-      '#default_value' => variable_get('calendar_widget_d7_display_type_1', 1),
+      '#default_value' => variable_get('byu_calendar_display_type_1', 1),
       '#options' => array(
           1 => t('Simple List (grouped by date)'),
           2 => t('Vertical tiles (select number of tiles shown below)'),
@@ -168,22 +168,22 @@ Below are the most common category ids for your convenience.') . '</div>',
 //          7 => t('Horizontal tile slider (displaying 3 at a time)'),
       ),
   );
-  $form['calendar_widget_d7_block_1']['calendar_widget_d7_max_number_1'] = array(
+  $form['byu_calendar_block_1']['byu_calendar_max_number_1'] = array(
       '#type' => 'textfield',
       '#title' => t('Maximum Event Limit'),
       '#description' => t("If you want to show the events for the time and categories you've specified but put a maximum number of events for space considerations, enter it here. If left blank, it will use internal defaults which vary per display type., I.e. list won't be limited, 'Vertical Tiles Limited' defaults to 3, etc."),
-      '#default_value' => variable_get('calendar_widget_d7_max_number_1'),
+      '#default_value' => variable_get('byu_calendar_max_number_1'),
       '#size' => 2,
       '#maxlength' => 2,
       '#number_type' => 'integer',
-      '#field_name' => 'calendar_widget_d7_max_number_1',
+      '#field_name' => 'byu_calendar_max_number_1',
 //      '#element_validate' => array ('number_field_widget_validate'),  // only issue is this does allow 0. but we'll still have 1 show anyway..
-//          '#element_validate' => array ('calendar_widget_d7_blocks_number_validate'),
+//          '#element_validate' => array ('byu_calendar_blocks_number_validate'),
   );
 
 
   // add settings for however many blocks there are
-  $form =  calendar_widget_d7_print_blocks_settings($form);
+  $form =  byu_calendar_print_blocks_settings($form);
 
 
 
@@ -191,18 +191,18 @@ Below are the most common category ids for your convenience.') . '</div>',
 
 }
 
-function calendar_widget_d7_print_blocks_settings($form) {
+function byu_calendar_print_blocks_settings($form) {
   // go find out how many blocks there should be
-  $numberofBlocks = variable_get('calendar_widget_d7_blocks_number', 1);
+  $numberofBlocks = variable_get('byu_calendar_blocks_number', 1);
 
 
   for($i = 2; $i <= $numberofBlocks; $i++) {
-    $blockName = 'calendar_widget_d7_block_' . $i;
+    $blockName = 'byu_calendar_block_' . $i;
 //    $blockTitle = 'Calendar Widget: Block ' . $i;
-    $datesField ='calendar_widget_d7_dates_' . $i;
-    $categoriesField ='calendar_widget_d7_categories_' . $i;
-    $displayTypeField ='calendar_widget_d7_display_type_' . $i;
-    $maxEventsField ='calendar_widget_d7_max_number_' . $i;
+    $datesField ='byu_calendar_dates_' . $i;
+    $categoriesField ='byu_calendar_categories_' . $i;
+    $displayTypeField ='byu_calendar_display_type_' . $i;
+    $maxEventsField ='byu_calendar_max_number_' . $i;
 
 
     $form[$blockName] = array(
@@ -255,7 +255,7 @@ function calendar_widget_d7_print_blocks_settings($form) {
         '#number_type' => 'integer',
         '#field_name' => $maxEventsField,
 //        '#element_validate' => array ('number_field_widget_validate'),  // only issue is this does allow 0. but we'll still have 1 show anyway..
-//          '#element_validate' => array ('calendar_widget_d7_blocks_number_validate'),
+//          '#element_validate' => array ('byu_calendar_blocks_number_validate'),
 
     );
 
@@ -264,12 +264,12 @@ function calendar_widget_d7_print_blocks_settings($form) {
   return $form;
 }
 
-function calendar_widget_d7_print_block_info($blocks) {
+function byu_calendar_print_block_info($blocks) {
   // go find out how many blocks there should be
-  $numberofBlocks = variable_get('calendar_widget_d7_blocks_number', 1);
+  $numberofBlocks = variable_get('byu_calendar_blocks_number', 1);
   // HERE HERE Katria get this to work so it will print out however many are needed..
   // testing basic getting 2 blocks
-//  $blocks['calendar_widget_d7_block_2'] = array(
+//  $blocks['byu_calendar_block_2'] = array(
 //    // The name that will appear in the block list.
 //      'info' => t($numberofBlocks),
 //    // Default setting.
@@ -278,7 +278,7 @@ function calendar_widget_d7_print_block_info($blocks) {
 //$i = 2;
 
   for ($i = 2; $i <= $numberofBlocks; $i++) {
-    $blockName = 'calendar_widget_d7_block_' . $i;
+    $blockName = 'byu_calendar_block_' . $i;
     $blockTitle = 'Calendar Widget: Block ' . $i;
     $blocks[$blockName] = array(
       // The name that will appear in the block list.
@@ -290,10 +290,10 @@ function calendar_widget_d7_print_block_info($blocks) {
   return $blocks;
 }
 
-function calendar_widget_d7_blocks_number_validate(){
+function byu_calendar_blocks_number_validate(){
  // make sure it is 1 or higher,
   // im guessing this function is supposed to return true or false.. i just don't know if it has something available, if it passes the variable in or anything..
-//  $numberofBlocks = variable_get('calendar_widget_d7_blocks_number', 1);
+//  $numberofBlocks = variable_get('byu_calendar_blocks_number', 1);
 //  if($numberofBlocks >= 1){
 //    return true;
 //  } else {
@@ -306,23 +306,23 @@ function calendar_widget_d7_blocks_number_validate(){
  * Define all the blocks for this module.
  * You can use a given hook exactly once in any module, so this hook must declare all blocks the module needs.
  */
-function calendar_widget_d7_block_info() {
-  $blocks['calendar_widget_d7_block_1'] = array(
+function byu_calendar_block_info() {
+  $blocks['byu_calendar_block_1'] = array(
     // The name that will appear in the block list.
       'info' => t('Calendar Widget: Block 1'),
     // Default setting.
       'cache' => DRUPAL_CACHE_PER_ROLE,
   );
 
-  $blocks = calendar_widget_d7_print_block_info($blocks);
+  $blocks = byu_calendar_print_block_info($blocks);
 
   return $blocks;
 }
 
 /* -- custom fxn to fetch calendar events and return data for a block -- */
-function calendar_widget_d7_fetch_events($blockNum){
+function byu_calendar_fetch_events($blockNum){
   // pull how many days forward to go
-  $daysField = 'calendar_widget_d7_dates_' . $blockNum;
+  $daysField = 'byu_calendar_dates_' . $blockNum;
   $days = variable_get($daysField, 7);
 
   // today's time
@@ -342,13 +342,13 @@ function calendar_widget_d7_fetch_events($blockNum){
   $endDate = date_format($endDateOb, 'Y-m-d');
 
   // get categories
-  $categoryField = 'calendar_widget_d7_categories_' . $blockNum;
+  $categoryField = 'byu_calendar_categories_' . $blockNum;
   $categoriesString = variable_get($categoryField, '90');
 
   $categories = str_replace(",", "+", $categoriesString);
   $categories = str_replace(" ", "", $categories);
 
-  $maxNumberField = 'calendar_widget_d7_max_number_' . $blockNum;
+  $maxNumberField = 'byu_calendar_max_number_' . $blockNum;
   $limit = variable_get($maxNumberField, -1);
   // if they enter 0, have no limit:
   if($limit == 0) {
@@ -371,31 +371,31 @@ function calendar_widget_d7_fetch_events($blockNum){
 
   $jsonArr = json_decode($result, true);
   // depending on block formatting type, process the right formatting/structure:
-  $displayTypeField = 'calendar_widget_d7_display_type_' . $blockNum;
+  $displayTypeField = 'byu_calendar_display_type_' . $blockNum;
   $displayType = variable_get($displayTypeField, 1);
 
   switch ($displayType) {
     case 1:  // list type, grouped by date
-      $html = calendar_widget_d7_list_format($jsonArr, $startDate, $endDate, $limit);
+      $html = byu_calendar_list_format($jsonArr, $startDate, $endDate, $limit);
       break;
     case 2:  // Vertical tiles, limited to first 3
-      $html = calendar_widget_d7_vertical_tiles_limited($jsonArr, $startDate, $endDate, $limit);
+      $html = byu_calendar_vertical_tiles_limited($jsonArr, $startDate, $endDate, $limit);
       break;
     case 3:  // Horizontal tiles, limited to first 3
-      $html = calendar_widget_d7_horizontal_tiles_limited($jsonArr, $startDate, $endDate, $limit);
+      $html = byu_calendar_horizontal_tiles_limited($jsonArr, $startDate, $endDate, $limit);
       break;
     case 4:  // Full page Calendar rows
-      $html = calendar_widget_d7_fullpage_rows($jsonArr, $startDate, $endDate, $limit);
+      $html = byu_calendar_fullpage_rows($jsonArr, $startDate, $endDate, $limit);
       break;
     case 5:  // Full page Calendar rows with Image
-      $html = calendar_widget_d7_fullpage_image_rows($jsonArr, $startDate, $endDate, $limit);
+      $html = byu_calendar_fullpage_image_rows($jsonArr, $startDate, $endDate, $limit);
       break;
     default:
-      $html = calendar_widget_d7_list_format($jsonArr, $startDate, $endDate, $limit);
+      $html = byu_calendar_list_format($jsonArr, $startDate, $endDate, $limit);
       break;
   }
 
- // $html = calendar_widget_d7_list_format($jsonArr, $startDate, $endDate);
+ // $html = byu_calendar_list_format($jsonArr, $startDate, $endDate);
 
   return $html;
 }
@@ -406,7 +406,7 @@ function calendar_widget_d7_fetch_events($blockNum){
 *  1. List format is default simple list format, listed by date groups. This is the default format.
  * It takes the array of json, the startDate and the endDate
  */
-function calendar_widget_d7_list_format($jsonArr, $startDate, $endDate, $limit) {
+function byu_calendar_list_format($jsonArr, $startDate, $endDate, $limit) {
 
   if (empty($jsonArr)) {
     // list is empty.
@@ -498,7 +498,7 @@ function calendar_widget_d7_list_format($jsonArr, $startDate, $endDate, $limit) 
 *  2. Vertical Tiles Limited format shows 3 vertical tiles
  *  * It takes the array of json, the startDate and the endDate
  */
-function calendar_widget_d7_vertical_tiles_limited($jsonArr, $startDate, $endDate, $limit) {
+function byu_calendar_vertical_tiles_limited($jsonArr, $startDate, $endDate, $limit) {
 
   if (empty($jsonArr)) {
     // list is empty.
@@ -544,7 +544,7 @@ function calendar_widget_d7_vertical_tiles_limited($jsonArr, $startDate, $endDat
 *  3. Horizontal Tiles Limited format shows 3 horizontal tiles
  *  * It takes the array of json, the startDate and the endDate
  */
-function calendar_widget_d7_horizontal_tiles_limited($jsonArr, $startDate, $endDate, $limit) {
+function byu_calendar_horizontal_tiles_limited($jsonArr, $startDate, $endDate, $limit) {
 
   if (empty($jsonArr)) {
     // list is empty.
@@ -586,7 +586,7 @@ function calendar_widget_d7_horizontal_tiles_limited($jsonArr, $startDate, $endD
 *  4. Full page calendar display with rows
  *  * It takes the array of json, the startDate and the endDate
  */
-function calendar_widget_d7_fullpage_rows($jsonArr, $startDate, $endDate, $limit) {
+function byu_calendar_fullpage_rows($jsonArr, $startDate, $endDate, $limit) {
 
   if (empty($jsonArr)) {
     // list is empty.
@@ -655,7 +655,7 @@ function calendar_widget_d7_fullpage_rows($jsonArr, $startDate, $endDate, $limit
  */
 
 
-function calendar_widget_d7_fullpage_image_rows($jsonArr, $startDate, $endDate, $limit) {
+function byu_calendar_fullpage_image_rows($jsonArr, $startDate, $endDate, $limit) {
 
   if (empty($jsonArr)) {
     // list is empty.
@@ -753,7 +753,7 @@ function calendar_widget_d7_fullpage_image_rows($jsonArr, $startDate, $endDate, 
 *  6. Vertical Tiles Slider format shows 3 vertical tiles, scrolling through a slider
  *  * It takes the array of json, the startDate and the endDate
  */
-function calendar_widget_d7_vertical_tiles_slider($jsonArr, $startDate, $endDate, $limit) {
+function byu_calendar_vertical_tiles_slider($jsonArr, $startDate, $endDate, $limit) {
 
   if (empty($jsonArr)) {
     // list is empty.
@@ -770,7 +770,7 @@ function calendar_widget_d7_vertical_tiles_slider($jsonArr, $startDate, $endDate
 *  7. Horizontal Tiles Slider format shows 3 horizontal tiles, scrolling through a slider
  *  * It takes the array of json, the startDate and the endDate
  */
-function calendar_widget_d7_horizontal_tiles_slider($jsonArr, $startDate, $endDate, $limit) {
+function byu_calendar_horizontal_tiles_slider($jsonArr, $startDate, $endDate, $limit) {
 
   if (empty($jsonArr)) {
     // list is empty.
@@ -787,7 +787,7 @@ function calendar_widget_d7_horizontal_tiles_slider($jsonArr, $startDate, $endDa
 
 
 /* test function to fetch events posted recently -- */
-function calendar_widget_d7_contents() {
+function byu_calendar_contents() {
   //Get today's date
   $today = getdate();
   //Calculate the date a week ago.
@@ -812,7 +812,7 @@ function calendar_widget_d7_contents() {
  *
 */
 
-function calendar_widget_d7_block_view($delta = '') {
+function byu_calendar_block_view($delta = '') {
 // load calendar tile components
 //  drupal_add_js('//cdn.byu.edu/byu-calendar-tile/latest/byu-calendar-tile.js', 'external');
   drupal_add_js('//cdn.byu.edu/byu-calendar-tile/latest/byu-calendar-tile.min.js', 'external');
@@ -829,7 +829,7 @@ function calendar_widget_d7_block_view($delta = '') {
       $block['subject'] = t('Calendar Widget Text');
       if (user_access('access content')) {
         // Use our custom function to retrieve data.
-        $result = calendar_widget_d7_fetch_events($blockNum);
+        $result = byu_calendar_fetch_events($blockNum);
         // return back to the block
         // No data returned for the block / no events.
           if (empty($result)) {
