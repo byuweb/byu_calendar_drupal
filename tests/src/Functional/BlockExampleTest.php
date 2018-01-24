@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\Tests\calendar_d8\Functional;
+namespace Drupal\Tests\byu_calendar\Functional;
 
 use Drupal\Component\Utility\Unicode;
 use Drupal\Tests\BrowserTestBase;
@@ -8,9 +8,9 @@ use Drupal\Tests\BrowserTestBase;
 /**
  * Test the configuration options and block created by Block Example module.
  *
- * @ingroup calendar_d8
+ * @ingroup byu_calendar
  *
- * @group calendar_d8
+ * @group byu_calendar
  * @group examples
  */
 class BlockExampleTest extends BrowserTestBase {
@@ -20,10 +20,10 @@ class BlockExampleTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = array('block', 'calendar_d8');
+  public static $modules = array('block', 'byu_calendar');
 
   /**
-   * Tests calendar_d8 functionality.
+   * Tests byu_calendar functionality.
    */
   public function testBlockExampleBasic() {
     $assert = $this->assertSession();
@@ -44,21 +44,21 @@ class BlockExampleTest extends BrowserTestBase {
     // Define and place blocks.
     $settings_configurable = array(
       'label' => t('Title of first block (example_configurable_text)'),
-      'id' => 'calendar_d8_example_configurable_text',
+      'id' => 'byu_calendar_example_configurable_text',
       'theme' => $theme_name,
     );
     $this->drupalPlaceBlock('example_configurable_text', $settings_configurable);
 
     $settings_uppercase = array(
       'label' => t('Configurable block to be uppercased'),
-      'id' => 'calendar_d8_example_uppercased',
+      'id' => 'byu_calendar_example_uppercased',
       'theme' => $theme_name,
     );
     $this->drupalPlaceBlock('example_uppercase', $settings_uppercase);
 
     $settings_empty = array(
       'label' => t('Example: empty block'),
-      'id' => 'calendar_d8_example_empty',
+      'id' => 'byu_calendar_example_empty',
       'theme' => $theme_name,
     );
     $this->drupalPlaceBlock('example_empty', $settings_empty);
@@ -73,7 +73,7 @@ class BlockExampleTest extends BrowserTestBase {
 
     // Change content of configurable text block.
     $edit = array(
-      'settings[calendar_d8_string_text]' => $this->randomMachineName(),
+      'settings[byu_calendar_string_text]' => $this->randomMachineName(),
     );
     $this->drupalPostForm('/admin/structure/block/manage/' . $settings_configurable['id'], $edit, t('Save block'));
     $assert->statusCodeEquals(200);
@@ -81,7 +81,7 @@ class BlockExampleTest extends BrowserTestBase {
     // Verify that new content is shown.
     $this->drupalGet('');
     $assert->statusCodeEquals(200);
-    $assert->pageTextContains($edit['settings[calendar_d8_string_text]']);
+    $assert->pageTextContains($edit['settings[byu_calendar_string_text]']);
   }
 
 }

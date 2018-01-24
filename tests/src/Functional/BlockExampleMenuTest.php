@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\Tests\calendar_d8\Functional;
+namespace Drupal\Tests\byu_calendar\Functional;
 
 use Drupal\Tests\BrowserTestBase;
 
 /**
  * Test the user-facing menus in Block Example.
  *
- * @ingroup calendar_d8
+ * @ingroup byu_calendar
  *
- * @group calendar_d8
+ * @group byu_calendar
  * @group examples
  */
 class BlockExampleMenuTest extends BrowserTestBase {
@@ -19,7 +19,7 @@ class BlockExampleMenuTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = array('block', 'calendar_d8');
+  public static $modules = array('block', 'byu_calendar');
 
   /**
    * The installation profile to use with this test.
@@ -39,7 +39,7 @@ class BlockExampleMenuTest extends BrowserTestBase {
   }
 
   /**
-   * Tests calendar_d8 menus.
+   * Tests byu_calendar menus.
    */
   public function testBlockExampleMenu() {
     $this->drupalGet('examples/block-example');
