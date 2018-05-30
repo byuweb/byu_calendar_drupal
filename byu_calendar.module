@@ -5,8 +5,8 @@
  * Module file for byu_calendar.
  */
 
-use DateTime;
-use DateTimeZone;
+//use DateTime;
+//use DateTimeZone;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Block\BlockPluginInterface;
 
@@ -53,12 +53,12 @@ function byu_calendar_block_view_alter(array &$build, BlockPluginInterface $bloc
 /**
  * {@inheritdoc}
  */
-function byu_calendar_build_display($category, $serverSide = false) {
-    if ($serverSide) {
-        $html = byu_calendar_fetch_events($category);
-    } else {
-        $html = byu_calendar_client_side_events($category);
-    }
+function byu_calendar_build_display($category, $style, $limit, $days, $price, $serverSide = false) {
+  if ($serverSide) {
+    $html = byu_calendar_fetch_events($category, $style, $limit, $days, $price);
+  } else {
+    $html = byu_calendar_client_side_events($category);
+  }
   return $html;
 }
 
@@ -104,9 +104,7 @@ function byu_calendar_client_side_events($category) {
 /**
  * {@inheritdoc}
  */
-function byu_calendar_fetch_events($category) {
-  // pull how many days forward to go
-  $days = 29;
+function byu_calendar_fetch_events($categories, $style, $limit, $days, $price) {
 
   $tz = new DateTimeZone('America/Denver');
 
@@ -116,12 +114,6 @@ function byu_calendar_fetch_events($category) {
   $end = new DateTime("+{$days} days", $tz);
   $endDate = $end->format('Y-m-d');
 
-
-  // get categories
-  $categories = str_replace(",", "+", $category);
-  $categories = str_replace(" ", "", $categories);
-
-  $limit = 8;
   // if they enter 0, have no limit:
   if ($limit == 0) {
     $limit = -1;
@@ -136,13 +128,36 @@ function byu_calendar_fetch_events($category) {
     ],
   ];
 
+  switch ($style) {
+    case 'classic_list':
+      $display = 1;
+      break;
+    case 'vertical_tile':
+      $display = 2;
+      break;
+    case 'horizontal_tile':
+      $display = 3;
+      break;
+    case 'fullpage_rows':
+      $display = 4;
+      break;
+    case 'fullpage_image_rows':
+      $display = 5;
+  }
+
   $context = stream_context_create($options);
 
   $result = file_get_contents($jsonUrl, FALSE, $context);
 
   $jsonArr = json_decode($result, TRUE);
-  $html = byu_calendar_format_featured($jsonArr, $startDate, $endDate, $limit);
   //    $html = $jsonUrl;
+  if ($style != 'featured') {
+    $html = '<byu-calendar title="BYU Calendar" categories="'. $categories . '" days="' . $days . '" price="' . $price . '" display="' . $display . '" limit="' . $limit . '"></byu-calendar>';
+  }
+  else {
+    $html = byu_calendar_format_featured($jsonArr, $startDate, $endDate, $limit);
+  }
+
   return $html;
 }
 
@@ -277,6 +292,7 @@ function byu_calendar_format_featured($jsonArr, $startDate, $endDate, $limit) {
     $html .= '</div>'; // ending the wrapping div with start and end date classes
 
   }
+
 
   return $html;
 }

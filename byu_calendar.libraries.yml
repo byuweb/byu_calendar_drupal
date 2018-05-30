@@ -7,3 +7,10 @@ feature-styles:
     js/byu-calendar-loader.js: {}
   dependencies:
     - core/jquery
+
+byu-calendar:
+  css:
+    state:
+      https://cdn.byu.edu/byu-calendar-components/experimental/style-bug-fixes/byu-calendar.min.css: { type: external, minified: true }
+  js:
+    https://cdn.byu.edu/byu-calendar-components/experimental/style-bug-fixes/byu-calendar.min.js: { type: external, minified: true }

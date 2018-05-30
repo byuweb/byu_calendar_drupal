@@ -63,7 +63,7 @@ class FeaturedEvents extends BlockBase {
    */
   public function build() {
 //      $category = $form_state->getValue('byu_calendar_category_id');
-      $category = '90';
+      $category = '10';
       $html = byu_calendar_build_display($category);
 //      $html = byu_calendar_fetch_events($category);
 //      $html = 'this is a new test';
