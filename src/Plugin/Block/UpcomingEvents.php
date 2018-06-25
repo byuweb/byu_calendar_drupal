@@ -144,21 +144,12 @@ class UpcomingEvents extends BlockBase {
       $categories = substr($categories, 0, -1);
     }
 
-    $html = byu_calendar_build_display($categories, $style, $limit, $days, $price, true);
+    $html = byu_calendar_build_display($categories, $style, $limit, $days, $price);
     $tz = new DateTimeZone('America/Denver');
     $tomorrow = new DateTime("tomorrow", $tz);
     $now = new DateTime("now", $tz);
 
-    //Switch libraries based on the styles.
-
-    switch ($style) {
-      case 'featured':
-        $library = 'byu_calendar/feature-styles';
-        break;
-      default:
-        $library = 'byu_calendar/byu-calendar';
-        break;
-    }
+    $library = 'byu_calendar/byu-calendar';
 
     return [
       '#type' => 'inline_template',
