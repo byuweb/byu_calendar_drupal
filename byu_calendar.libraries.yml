@@ -1,13 +1,3 @@
-feature-styles:
-  version: 1.x
-  css:
-    layout:
-      css/feature_styles.css: {}
-  js:
-    js/byu-calendar-loader.js: {}
-  dependencies:
-    - core/jquery
-
 byu-calendar:
   css:
     state:
