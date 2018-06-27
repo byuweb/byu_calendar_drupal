@@ -6,10 +6,16 @@
 
 /* ---- add the configuration page to menu --- */
 
+/**
+ * Implements hook_menu()
+ * @return mixed
+ *
+ */
+
 function byu_calendar_menu() {
   $items['admin/config/regional/calendar-widget'] = array(
-      'title' => 'Calendar Widget',
-      'description' => 'Set up calendar widget blocks to display events pulled from calendar.byu.edu.',
+      'title' => 'BYU Calendar',
+      'description' => 'Set up BYU calendar blocks to display events pulled from calendar.byu.edu.',
 //      'page callback' => 'byu_calendar_overview_page',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('byu_calendar_form'),
@@ -20,6 +26,12 @@ function byu_calendar_menu() {
 }
 
 // Create permissions
+
+/**
+ * Implements hook_permission()
+ * @return array
+ */
+
 function byu_calendar_permission() {
   return array(
       'Administer Calendar Widget settings' => array(
@@ -29,10 +41,14 @@ function byu_calendar_permission() {
   );
 }
 
+/**
+ * Implements hook_form()
+ * @param $form
+ * @param $form_state
+ * @return mixed
+ */
+
 function byu_calendar_form($form, &$form_state) {
-
-
-
 
   $form['info'] = array(
       '#type' => 'fieldset',
@@ -263,6 +279,11 @@ function byu_calendar_print_blocks_settings($form) {
   }
   return $form;
 }
+
+/**
+ * @param $blocks
+ * @return mixed
+ */
 
 function byu_calendar_print_block_info($blocks) {
   // go find out how many blocks there should be
@@ -683,7 +704,7 @@ function byu_calendar_fullpage_image_rows($jsonArr, $startDate, $endDate, $limit
       if ($first_item) {
         $lastDate = date("y-m-d", strtotime($item['StartDateTime']));
         $html .= '<div class="fullpage-date-wrapper"><div class="fullpage-date-weekday">' . date("l", strtotime($item['StartDateTime'])) . ' | ' . '</div><div class="fullpage-date-text">' . date("F j, Y", strtotime($item['StartDateTime'])) . '</div></div>';
-        $currentTime = $new_date;
+        $currentTime = $newDate;
         $first_item = false;
       }
 
@@ -806,11 +827,12 @@ function byu_calendar_contents() {
 
 }
 
-
-/*
-*  When the block loads, fetch events, which fetches things based on block settings..
- *
-*/
+/**
+ * Implements hook_block_view()
+ * When the block loads, fetch events, which fetches things based on block settings.
+ * @param $delta
+ * @return mixed
+ */
 
 function byu_calendar_block_view($delta = '') {
 // load calendar tile components
@@ -826,21 +848,20 @@ function byu_calendar_block_view($delta = '') {
 // get block number from delta
   $blockNum = substr($delta, -1);
 
-      $block['subject'] = t('Calendar Widget Text');
-      if (user_access('access content')) {
-        // Use our custom function to retrieve data.
-        $result = byu_calendar_fetch_events($blockNum);
-        // return back to the block
-        // No data returned for the block / no events.
-          if (empty($result)) {
-            $block['content'] = t('No events.');
-          }
-          else {
-            //Pass data through theme function.
-            $block['content'] = t($result);
-
-          }
-        }
-        return $block;
+  $block['subject'] = t('Calendar Widget Text');
+  if (user_access('access content')) {
+    // Use our custom function to retrieve data.
+    $result = byu_calendar_fetch_events($blockNum);
+    // return back to the block
+    // No data returned for the block / no events.
+    if (empty($result)) {
+      $block['content'] = t('No events.');
+    }
+    else {
+      //Pass data through theme function.
+      $block['content'] = t($result);
+    }
+  }
+  return $block;
 
 }

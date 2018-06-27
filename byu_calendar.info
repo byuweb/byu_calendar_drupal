@@ -1,13 +1,11 @@
 name = BYU Calendar
 description = Pulls configured categories' events from calendar.byu.edu and displays them in blocks.
-core = 7.x 
+core = 7.x
+package = BYU Custom
+configure = admin/config/regional/calendar-widget
 
 #dependencies[] = calendar:calendar
 dependencies[] = drupal:system (>= 7.40)
 #this naming style is after drupal 7.40
-
-configure = admin/config/regional/calendar-widget
-
-package = BYU Custom
 
 stylesheets[all][] = css/calendar_widget.css
