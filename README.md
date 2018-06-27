@@ -18,7 +18,7 @@ This will define what way the calendar will be displayed. There are 5 different 
 * Horizontal Tile - Displays the events separately in horizontal cards with the date to the left.
 * Full-Page Rows - Displays the events in rows that span the container.
 * Full-Page Rows with Images - Displays the events with a thumbnail on the left.
-* Featured Events - Displays the events in the featured events format found on the BYU homepage. **Note**: Each column will only display two events.
+* Featured Events - Displays the events in the featured events format found on the BYU homepage. **Note**: Each column will only display two events. Also, the limit option has no effect on this component.
 
 ### Additional Filters
 
