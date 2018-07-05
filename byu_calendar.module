@@ -80,6 +80,8 @@ function byu_calendar_build_display($categories, $style, $limit, $days, $price) 
       $limit = -1;
       $display = 6;
       break;
+    case 'minimal_tile':
+      $display = 7;
   }
   //    $html = $jsonUrl;
   $html = '<byu-calendar title="BYU Calendar" categories="'. $categories . '" days="' . $days . '" price="' . $price . '" display="' . $display . '" limit="' . $limit . '"></byu-calendar>';

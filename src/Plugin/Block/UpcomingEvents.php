@@ -70,6 +70,7 @@ class UpcomingEvents extends BlockBase {
         'fullpage_rows' => $this->t('Full-Page Rows'),
         'fullpage_image_rows' => $this->t('Full-Page Rows with Images'),
         'featured' => $this->t('Featured'),
+        'minimal_tile' => $this->t('Minimal Tiles'),
       ],
       '#title' => $this->t('Calendar Display'),
       '#description' => $this->t('Selected the desired display.')
