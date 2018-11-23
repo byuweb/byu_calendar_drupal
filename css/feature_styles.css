@@ -14,7 +14,7 @@
 }
 
 .overall-feature-wrapper h5, .overall-feature-wrapper h6, .overall-feature-wrapper .h5, .overall-feature-wrapper .h6, .overall-feature-wrapper .h7 {
-    font-family: "Gotham A", "Gotham B", Arial, sans-serif;
+    font-family: "HCo Ringside Narrow SSm", Arial, sans-serif;
 }
 .overall-feature-wrapper h4 {
     font-size: 18px;
@@ -76,7 +76,7 @@
 
 .date-wrapper {
     width: 100%;
-    background: #5D7998; /* medblue */
+    background: #32538d; /* medblue */
     margin-bottom: 10px;
 }
 
@@ -90,7 +90,15 @@
 
 .date-weekday.h6 {
     margin-top: 0;
-    margin-bottom: 5px;
+    margin-bottom: 0;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+.date-day {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .date-day.h7 {
@@ -114,7 +122,7 @@ column-links {
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    background-color: #5D7998;
+    background-color: #32538d;
 }
 .academic-link {
     height: 33%;
@@ -175,15 +183,16 @@ column-links {
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-family: "Gotham A", "Gotham B", Arial, sans-serif;
+    font-family: "HCo Ringside Narrow SSm", Arial, sans-serif;
 }
 
 
 .academic-calendar-text,
 .full-events-text {
-    font-size: 12px;
+    font-size: 14px;
     text-align: center;
     font-weight: 500;
+    letter-spacing: 2px;
 }
 
 .academic-calendar-text .larger,
@@ -196,7 +205,7 @@ column-links {
 .academic-calendar-button.h7,
 .full-events-button.h7 {
     padding: 5px 5px;
-    background:  #5D7998; /* medblue */
+    background:  #32538d; /* medblue */
     border: 3px solid #fff;
     width: 80px;
     text-align: center;
@@ -229,7 +238,7 @@ column-links {
 }
 #academic-area:focus .academic-calendar-button.h7,
 #academic-area:hover .academic-calendar-button.h7 {
-    background: #5D7998; /* medblue */
+    background: #32538d; /* medblue */
 }
 
 .feature-column > .event.event-1 {
@@ -298,7 +307,7 @@ column-links {
         height: 65px;
     }
     .full-events {
-        background: #5D7998; /* medblue */
+        background: #32538d; /* medblue */
         height: 100%;
     }
     .academic-calendar-wrapper {
