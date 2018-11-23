@@ -53,80 +53,12 @@ function byu_calendar_block_view_alter(array &$build, BlockPluginInterface $bloc
 /**
  * {@inheritdoc}
  */
-function byu_calendar_build_display($category, $style, $limit, $days, $price, $serverSide = false) {
-  if ($serverSide) {
-    $html = byu_calendar_fetch_events($category, $style, $limit, $days, $price);
-  } else {
-    $html = byu_calendar_client_side_events($category);
-  }
-  return $html;
-}
-
-function byu_calendar_client_side_events($category) {
-  $categories = str_replace(",", "+", $category);
-  $categories = str_replace(" ", "", $categories);
-  $categories = urlencode($categories);
-  $jsonUrl = "https://calendar.byu.edu/api/Events.json?event[min][date]=START_DATE&event[max][date]=END_DATE&categories={$categories}";
-  return '<script type="text/javascript">var byuCalendarEventsUrl="' . $jsonUrl . '";</script>
-<div class="overall-feature-wrapper calendar-widget-block display-list">
-    <div id="calendar-event-column-template" style="display: none" class="feature-column">
-        <div class="date-wrapper">
-            <div class="date-weekday h6">DATE_WEEKDAY</div>
-            <div class="date-day h7">DATE_MONTH_DAY</div>
-        </div>
-        <div id="calendar-event-event-template" class="event">
-            <div class="event-content">
-                <h4 class="event-title">
-                    <a href="EVENT_HREF" target="_blank">EVENT_TITLE</a>
-                </h4>
-                <div class="location h5" slot="location">EVENT_LOCATION</div>
-                <div class="event-time h5">EVENT_TIME</div>
-            </div>
-        </div>
-    </div>
-    <div class="feature-column column-links">
-        <a href="https://calendar.byu.edu" class="full-link" id="full-events-area">
-            <div class="full-events">
-                <div class="full-events-text">FULL<div class="larger">EVENTS</div>CALENDAR</div>
-                <div class="full-events-button h7">View &gt;&gt;</div>
-            </div>
-        </a><a href="https://registrar.byu.edu/academic-calendar" class="academic-link" id="academic-area">
-            <div class="academic-calendar-wrapper">
-                <div class="academic-calendar-text">
-                    <div class="larger">ACADEMIC</div>CALENDAR</div>
-                <div class="academic-calendar-button h7">View &gt;&gt;</div>
-            </div>
-        </a>
-    </div>
-</div>';
-}
-
-/**
- * {@inheritdoc}
- */
-function byu_calendar_fetch_events($categories, $style, $limit, $days, $price) {
-
-  $tz = new DateTimeZone('America/Denver');
-
-  $start = new DateTime("now", $tz);
-  $startDate = $start->format('Y-m-d');
-
-  $end = new DateTime("+{$days} days", $tz);
-  $endDate = $end->format('Y-m-d');
+function byu_calendar_build_display($categories, $style, $limit, $days, $price) {
 
   // if they enter 0, have no limit:
   if ($limit == 0) {
     $limit = -1;
   }
-
-  $jsonUrl = "http://calendar.byu.edu/api/Events?event[min][date]={$startDate}&event[max][date]={$endDate}&categories={$categories}";
-
-  $options = [
-    'http' => [
-      'method' => "GET",
-      'header' => "Accept: application/json\r\n",
-    ],
-  ];
 
   switch ($style) {
     case 'classic_list':
@@ -143,160 +75,19 @@ function byu_calendar_fetch_events($categories, $style, $limit, $days, $price) {
       break;
     case 'fullpage_image_rows':
       $display = 5;
+      break;
+    case 'featured':
+      $limit = -1;
+      $display = 6;
+      break;
+    case 'minimal_tile':
+      $display = 7;
   }
-
-  $context = stream_context_create($options);
-
-  $result = file_get_contents($jsonUrl, FALSE, $context);
-
-  $jsonArr = json_decode($result, TRUE);
   //    $html = $jsonUrl;
-  if ($style != 'featured') {
-    $html = '<byu-calendar title="BYU Calendar" categories="'. $categories . '" days="' . $days . '" price="' . $price . '" display="' . $display . '" limit="' . $limit . '"></byu-calendar>';
-  }
-  else {
-    $html = byu_calendar_format_featured($jsonArr, $startDate, $endDate, $limit);
-  }
+  $html = '<byu-calendar title="BYU Calendar" categories="'. $categories . '" days="' . $days . '" price="' . $price . '" display="' . $display . '" limit="' . $limit . '"></byu-calendar>';
 
   return $html;
 }
-
-
-/**
- * {@inheritdoc}
- */
-function byu_calendar_format_featured($jsonArr, $startDate, $endDate, $limit) {
-
-  // do all the formatting here
-
-
-  if (empty($jsonArr)) {
-    // list is empty.
-    $html = "<h3>No events.</h3>";
-  }
-  else {
-
-    $html = '<div class="overall-feature-wrapper startDate-' . $startDate . ' endDate-' . $endDate . ' calendar-widget-block display-list">';
-    $currentTime = new DateTime();
-    $currentTime->setTimestamp(strtotime("now"));
-
-    $first_item = TRUE;
-    $count = 0;
-
-    // establish base variables
-    // columnDate: the yyyy-mm-dd format of the column it's looping through for
-    // columnEventCount: the number of events already loaded for the display (max 2 per day)
-    // columnId: 1,2,3 or 4
-    $columnDate = $startDate;
-    $columnEventCount = 0;
-    $columnId = 1;
-    $lastDate = date("y-m-d");
-
-    foreach ($jsonArr as $item) {
-      if ($count == $limit) {
-        break;
-      }
-      $newDate = date("y-m-d", strtotime($item[ 'StartDateTime' ]));
-      $new_date = new DateTime();
-      $new_date->setTimestamp(strtotime($item[ 'StartDateTime' ]));
-
-      if ($first_item) {
-        $lastDate = date("y-m-d", strtotime($item[ 'StartDateTime' ]));
-        $html .= '<div class="feature-column column-' . $columnId . '">';// start the first the column div
-        $html .= '<div class="date-wrapper"><div class="date-weekday h6">' . date("l", strtotime($item[ 'StartDateTime' ])) . '</div><div class="date-day h7">' . date("M j", strtotime($item[ 'StartDateTime' ])) . '</div></div>';
-        $currentTime = $new_date;
-        $first_item = FALSE;
-      }
-
-      $diff = $currentTime->diff($new_date);
-      // check if it's the same date or not
-      if (($newDate !== $lastDate)) {
-        // yes, it's a new date column
-        $columnId++;
-        $columnEventCount = 0;
-        $html .= '</div>'; // end the column div
-
-        // if we have another column to do, continue:
-        if ($columnId == 5) {
-          break;
-        }
-        else {
-          // continue to next column
-          $html .= '<div class="feature-column column-' . $columnId . '">'; // start the next column div
-          $html .= '<div class="date-wrapper"><div class="date-weekday h6">' . date("l", strtotime($item[ 'StartDateTime' ])) . '</div><div class="date-day h7">' . date("M j", strtotime($item[ 'StartDateTime' ])) . '</div></div>';
-          $currentTime = $new_date;
-        }
-      }
-
-      // check if we've hit the max of 2
-      if ($columnEventCount >= 2) {
-        // skip to the next day, do nothing
-      }
-      else {
-        //add the event to the current column
-        $html .= '<div class="event event-' . $columnEventCount . '">';
-
-        $html .= '<div class="event-content">';
-        $html .= '<h4 class="event-title"><a href="' . $item[ 'FullUrl' ] . ' " target="_blank">' . $item[ 'Title' ] . '</a></h4>';
-
-        if ($item[ 'LocationName' ] != NULL) {
-          $html .= '<div class="location h5" slot="location">' . $item[ 'LocationName' ] . '</div>';
-        }
-
-        if ($item[ 'AllDay' ] == 'false') {
-          $html .= '<div class="event-time h5">' . date("g:i A", strtotime($item[ 'StartDateTime' ])).'</div>';
-        }
-        else {
-          $html .= '<div class="event-time h5">All Day</div>';
-        }
-
-        $html .= '</div>'; //close event content wrapper
-        $html .= '</div>'; //close event
-
-        // end single event
-        $columnEventCount++;
-      }
-
-      $lastDate = date("y-m-d", strtotime($item[ 'StartDateTime' ]));
-      $count++;
-    } // end for loop
-    //if there are less than 4 feature-columns, events ran out
-    if($columnId < 4) {
-      $html .= '</div>'; //close last feature-column
-      $columnId++; // update column count
-      // Add placeholder feature-columns without events
-      while($columnId < 4) {
-        $currentDate = date("y-m-d", strtotime($lastDate . '+1 day'));
-        $html .= '<div class="feature-column column-' . $columnId . '">'; // start the next column div
-        $html .= '<div class="date-wrapper"><div class="date-weekday h6">' . date("l", strtotime($currentDate)) . '</div><div class="date-day h7">' . date("M j", strtotime($currentDate)) . '</div></div></div>';
-        $lastDate = $currentDate;
-        $columnId++;
-      }
-    }
-
-    //add final links column
-    $html .= '<div class="feature-column column-links">';
-
-    $html .= '<a href="https://calendar.byu.edu" class="full-link" id="full-events-area"><div class="full-events">';
-    $html .= '<div class="full-events-text">FULL<div class="larger">EVENTS</div>CALENDAR</div>';
-    $html .= '<div class="full-events-button h7">View >></div>';
-    $html .= '</div></a>';
-
-    $html .= '<a href="/academics" class="academic-link" id="academic-area"><div class="academic-calendar-wrapper">';
-    $html .= '<div class="academic-calendar-text"><div class="larger">ACADEMIC</div>CALENDAR</div>';
-    $html .= '<div class="academic-calendar-button h7">View >></div>';
-    $html .= '</div></a>';
-
-
-    $html .= '</div>'; // end column-links
-    $html .= '</div>'; // ending the wrapping div with start and end date classes
-
-  }
-
-
-  return $html;
-}
-
 /**
  * @} End of "defgroup byu_calendar".
  */
